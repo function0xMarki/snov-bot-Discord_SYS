@@ -15,4 +15,5 @@ SNOV-bot is a bot designed to verify Syscoin sentry node holders and allow them 
 1. Install [bun](https://bun.sh/).
 2. Git clone the repo.
 3. Create a .env file in the main project folder and add the relevant info into it.
-4. In main project folder run the command: `bun --watch index.js`, this will run the bot and will restart it if it crashes for any reason. Setting up a service to run the bot is advised.
+4. In the main project folder run the command `bun install` to install all dependencies.
+5. In the main project folder run the command: `bun --watch index.js`, this will run the bot and will restart it if it crashes for any reason. Setting up a service to run the bot is advised.
