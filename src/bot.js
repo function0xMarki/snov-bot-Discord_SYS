@@ -55,6 +55,10 @@ export async function sendChannelArrivalMessage(client, userID) {
       .setImage("https://media1.tenor.com/m/MwUf8F3f1ewAAAAd/syscoin.gif");
 
     await channel.send({ embeds: [embed] });
+    
+    const welcomeGif = await channel.send('GIPHY URL');
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    await welcomeGif.delete();
   } catch (error) {
     console.log(error);
   }

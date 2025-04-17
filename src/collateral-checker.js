@@ -5,7 +5,7 @@ import schedule from 'node-schedule';
 
 import { FAIL, SUCCESS, ERROR } from "./constants.js";
 import { getAllUsersDB, removeUserFromDB } from "./db.js";
-import { getCollateralAddress } from "./verify.js";
+import { getCollateralAddress, isInSnList } from "./verify.js";
 import { disableChannelAccess } from "./bot.js";
 
 function delay(ms) {
@@ -26,15 +26,9 @@ export const dailyTask = async (client) => {
 	    const allUsers = await getAllUsersDB();
 	    let missingNodeUsers = [];
 	    for (let i = 0; i < allUsers.length; i++) {
-	    	let missing = true;
-	    	for (const sn in snList) {
-	    		if (allUsers[i].address === snList[sn].collateraladdress) {
-	    			missing = false;
-	    			break;
-	    		}
-	    	}
+	    	const inSnList = await isInSnList(allUsers[i].address);
 
-	    	if (missing) {
+	    	if (!inSnList) {
 	    		missingNodeUsers.push(allUsers[i]);
 	    	}
 	    }

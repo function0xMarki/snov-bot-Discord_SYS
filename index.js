@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { Client, Collection, Events, GatewayIntentBits, Partials, EmbedBuilder } from "discord.js";
 
-import { verifySignature, getSigningMessage, getCollateralAddress } from "./src/verify.js";
+import { verifySignature, getSigningMessage, getCollateralAddress, isInSnList } from "./src/verify.js";
 import { disableChannelAccess, enableChannelAccess, sendDM, sendVerifiedDM, sendChannelArrivalMessage } from "./src/bot.js";
 import { addUserToDB } from "./src/db.js";
 import { FAIL, SUCCESS, ERROR } from "./src/constants.js";
@@ -59,11 +59,12 @@ client.on(Events.MessageCreate, async (message) => {
           break;
         case "!verify":
           if (command.length > 2) {
-            const { status, address } = await getCollateralAddress(command[1]);
-            if (status) {
-              const verified = await verifySignature(userID, address, command[2]);
+            const collateral = await getCollateralAddress(command[1]);
+            const inSnList = await isInSnList(collateral.address);
+            if (collateral.status === SUCCESS && inSnList) {
+              const verified = await verifySignature(userID, collateral.address, command[2]);
               if (verified) {
-                const added = await addUserToDB(userID, command[1], address, command[2]);
+                const added = await addUserToDB(userID, command[1], collateral.address, command[2]);
                 if (added) {
                   const enabled = await enableChannelAccess(client, userID);
 
@@ -81,7 +82,7 @@ client.on(Events.MessageCreate, async (message) => {
                 sendDM(client, userID, FAIL, "Verification failed. Are you sure you entered the information correctly?");
               }
             } else {
-              sendDM(client, userID, FAIL, "Unspent collateral has not been found.");
+              sendDM(client, userID, FAIL, "Unspent collateral has not been found or Sentry Node is not active.");
             }
           } else {
             sendDM(client, userID, FAIL, "Missing a collateral transaction ID or signed message.");

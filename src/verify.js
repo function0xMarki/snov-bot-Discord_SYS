@@ -50,6 +50,25 @@ export async function getSigningMessage(txid, userID) {
   }
 }
 
+// check that the given address is associated with a sentry node in the mnlist
+export async function isInSnList(address) {
+  try {
+      const response = await fetch(`${process.env.GOV_API_URL}/mnlist`);
+      const snList = await response.json();
+
+      for (const sn in snList) {
+        if (address === snList[sn].collateraladdress) {
+          return SUCCESS;
+        }
+      }
+      
+      return FAIL;
+  } catch (error) {
+    console.log(error);
+    return ERROR;
+  }
+}
+
 // gets the address the collateral was sent to, based on the collateral txid
 export async function getCollateralAddress(txid) {
   try {
