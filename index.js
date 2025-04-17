@@ -52,7 +52,6 @@ client.on(Events.MessageCreate, async (message) => {
           if (command.length > 1) {
             const { status, message } = await getSigningMessage(command[1], userID);
             sendDM(client, userID, status, message);
-            console.log(message);
           } else {
             sendDM(client, userID, FAIL, "Missing a collateral transaction ID.");
           }
@@ -61,6 +60,7 @@ client.on(Events.MessageCreate, async (message) => {
           if (command.length > 2) {
             const collateral = await getCollateralAddress(command[1]);
             const inSnList = await isInSnList(collateral.address);
+            
             if (collateral.status === SUCCESS && inSnList) {
               const verified = await verifySignature(userID, collateral.address, command[2]);
               if (verified) {

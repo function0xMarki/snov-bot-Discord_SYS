@@ -12,7 +12,6 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-//
 // runs daily at midnight
 // check all users to see if they are in the mnlist, if not check if they moved their collateral
 // if they moved their collateral then disable their access to the private channel and remove them from the DB

@@ -35,7 +35,7 @@ export async function sendVerifiedDM(client, userID, message) {
       .setColor("#00ff00")
       .setTitle("Success!")
       .setDescription(message)
-      .setImage("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExODdiejh5OWx5YzQ1c3B4cWJ6aXowY2Y1czMybHlkMHE0NmR0c3U0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/g9582DNuQppxC/giphy.gif");
+      .setImage("https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXB2b3phbXRxajl2MjZ5bGxyazJjZ2lraGUyMTJybm56ZmZxbGs4dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/smN9HBwCAQLBkgHhLN/giphy.gif");
 
     await user.send({ embeds: [embed] });
   } catch (error) {
@@ -43,10 +43,16 @@ export async function sendVerifiedDM(client, userID, message) {
   }
 }
 
+// sends a welcome message to the newly verified sentry node holder in the private channel
 export async function sendChannelArrivalMessage(client, userID) {
   try {
     const channel = await client.channels.fetch(process.env.CHANNEL_ID);
     const user = await client.users.fetch(userID);
+
+    const gifArr = [
+      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTU4ZGk0OG1iam9lZzJpazE4MWZtN2N0MGpsZHZsdDgzdW9qd2tlcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/PZgtEuy76gx7A38ZI9/giphy.gif",
+      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjR5MzU3enAzZXh3aHJuZzdtazg1ajVicWFvdHpyMGhreXprenI3cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U6R97Psb07BSKkNU8T/giphy.gif"
+    ]
 
     const embed = new EmbedBuilder()
       .setColor("#0000ff")
@@ -55,14 +61,13 @@ export async function sendChannelArrivalMessage(client, userID) {
       .setImage("https://media1.tenor.com/m/MwUf8F3f1ewAAAAd/syscoin.gif");
 
     await channel.send({ embeds: [embed] });
-    
-    const welcomeGif = await channel.send('GIPHY URL');
+
+    const welcomeGif = await channel.send(gifArr[Math.floor(Math.random() * gifArr.length)]);
     await new Promise(resolve => setTimeout(resolve, 60000));
     await welcomeGif.delete();
   } catch (error) {
     console.log(error);
   }
-
 }
 
 // enables access to the OG channel for the user with the specified userID
