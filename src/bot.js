@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { EmbedBuilder } from "discord.js";
 
-import { FAIL, SUCCESS, ERROR } from "./constants.js";
+import { DEFAULT, FAIL, SUCCESS, ERROR } from "./constants.js";
 
 // sends a DM to the user with the specified userID
 export async function sendDM(client, userID, status, message) {
@@ -17,6 +17,10 @@ export async function sendDM(client, userID, status, message) {
       embed = new EmbedBuilder()
         .setColor("#00ff00")
         .setTitle("Success!")
+        .setDescription(message);
+    } else if (status === DEFAULT) {
+      embed = new EmbedBuilder()
+        .setColor("#0061ff")
         .setDescription(message);
     }
 
@@ -55,9 +59,9 @@ export async function sendChannelArrivalMessage(client, userID) {
     ]
 
     const embed = new EmbedBuilder()
-      .setColor("#0000ff")
+      .setColor("#0061ff")
       .setTitle("A new Sentry Node Holder appears!")
-      .setDescription(`Welcome to ${user.toString()}!`)
+      .setDescription(`Welcome to ${user.toString()}!\n The Sentry Node clan grows stronger by one!`)
       .setImage("https://media1.tenor.com/m/MwUf8F3f1ewAAAAd/syscoin.gif");
 
     await channel.send({ embeds: [embed] });
@@ -70,7 +74,7 @@ export async function sendChannelArrivalMessage(client, userID) {
   }
 }
 
-// enables access to the OG channel for the user with the specified userID
+// enables access to the private channel for the user with the specified userID
 export async function enableChannelAccess(client, userID) {
   const channel = await client.channels.fetch(process.env.CHANNEL_ID);
 
@@ -92,7 +96,7 @@ export async function enableChannelAccess(client, userID) {
   return false;
 }
 
-// disables access to the OG channel for the user with the specified userID
+// disables access to the private channel for the user with the specified userID
 export async function disableChannelAccess(client, userID) {
   const channel = await client.channels.fetch(process.env.CHANNEL_ID);
 

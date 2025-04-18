@@ -35,11 +35,7 @@ export async function getSigningMessage(txid, userID) {
     const hashedMessage = await getMessageHash(userID);
     if (status === SUCCESS) {
       return { status, 
-        message: `Unspent collateral has been found!\n
-                  Please enter the following command into your Syscoin QT wallet console, this will output the signed message we can then use to verify if you own the collateral address:\n
-                  > signmessage ${address} ${hashedMessage}\n
-                  Please use the output from the previous step in the following command in Discord to verify your signed message:
-                  > !verify ${txid} *signedMessage*`
+        message: `Unspent collateral has been found!\n\nPlease enter the following command into your Syscoin QT wallet console, this will output the signed message we can then use to verify if you own the collateral address:\n\n> signmessage ${address} ${hashedMessage}\n\nNext, please use the output from the \`signmessage\` step in the following command in Discord to verify your signed message:\n\n> !verify ${txid} *signedMessage*`
         };
     } else {
       return { status, message: "Unspent collateral has not been found." };
