@@ -3,6 +3,7 @@ dotenv.config();
 import { EmbedBuilder } from "discord.js";
 
 import { DEFAULT, FAIL, SUCCESS, ERROR } from "./constants.js";
+import channels from '../channels.json' assert { type: 'json' };
 
 // sends a DM to the user with the specified userID
 export async function sendDM(client, userID, status, message) {
@@ -50,7 +51,7 @@ export async function sendVerifiedDM(client, userID, message) {
 // sends a welcome message to the newly verified sentry node holder in the private channel
 export async function sendChannelArrivalMessage(client, userID) {
   try {
-    const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+    const channel = await client.channels.fetch(Object.keys(channels)[0]);
     const user = await client.users.fetch(userID);
 
     const gifArr = [
@@ -60,7 +61,7 @@ export async function sendChannelArrivalMessage(client, userID) {
 
     const embed = new EmbedBuilder()
       .setColor("#0061ff")
-      .setTitle("A new Sentry Node Holder appears!")
+      .setTitle("A new sentry node holder appears!")
       .setDescription(`Welcome to ${user.toString()}!\n The Sentry Node clan grows stronger by one!`)
       .setImage("https://media1.tenor.com/m/MwUf8F3f1ewAAAAd/syscoin.gif");
 
@@ -74,46 +75,54 @@ export async function sendChannelArrivalMessage(client, userID) {
   }
 }
 
-// enables access to the private channel for the user with the specified userID
+// enables access to the private channels for the user with the specified userID
 export async function enableChannelAccess(client, userID) {
-  const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+  let success = true;
 
-  if (channel) {
-    try {
-      const user = await client.users.fetch(userID);
-      const enabled = await channel.permissionOverwrites.create(user, {
-        ViewChannel: true,
-        SendMessages: true
-      });
+  for (const [channelID, permissions] of Object.entries(channels)) {
+    const channel = await client.channels.fetch(channelID);
 
-      console.log(`Successfully enabled access for: ${userID}`);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
+    if (channel) {
+      try {
+        const user = await client.users.fetch(userID);
+        const enabled = await channel.permissionOverwrites.create(user, permissions);
+
+        console.log(`Successfully enabled access for: ${userID} to ${channelID}`);
+      } catch (error) {
+        console.log(error);
+        success = false;
+      }
+    } else {
+      success = false;
     }
-  }
-  return false;
+  };
+
+  return success;
 }
 
-// disables access to the private channel for the user with the specified userID
+
+// disables access to the private channels for the user with the specified userID
 export async function disableChannelAccess(client, userID) {
-  const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+  let success = true;
 
-  if (channel) {
-    try {
-      const user = await client.users.fetch(userID);
-      const disabled = await channel.permissionOverwrites.create(user, {
-        ViewChannel: false,
-        SendMessages: false
-      });
+  for (const [channelID, permissions] of Object.entries(channels)) {
+    const channel = await client.channels.fetch(channelID);
 
-      console.log(`Successfully disabled access for: ${userID}`);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
+    if (channel) {
+      try {
+        const user = await client.users.fetch(userID);
+        // deletes any permission overwrites so the user's permissions for a channel are based solely on their roles
+        success = !!await channel.permissionOverwrites.delete(user);
+
+        console.log(`Successfully disabled access for: ${userID} to ${channelID}`);
+      } catch (error) {
+        console.log(error);
+        success = false;
+      }
+    } else {
+      success = false;
     }
-  }
-  return false;
+  };
+
+  return success;
 }

@@ -1,6 +1,6 @@
 # SNOV-bot
 
-SNOV-bot is a bot designed to verify Syscoin sentry node holders and allow them access to a specific private channel in a Discord server. It does this by checking if the user has made a collateral transaction and then having them sign a message in the Syscoin QT wallet to prove that they own the collateral address, once this is complete the user is permitted access to the private channel. Each user's collateral will be checked daily and if it is moved then the access to the private channel will be revoked for that user.
+SNOV-bot is a bot designed to verify Syscoin sentry node holders and allow them access to specific private channels in a Discord server. It does this by checking if the user has made a collateral transaction and then having them sign a message in the Syscoin QT wallet to prove that they own the collateral address, once this is complete the user is permitted access to the private channels. Each user's collateral will be checked daily and if it is moved then the access to the private channels will be revoked for that user.
 
 ## Discord app creation
 1. Create an app on the [Discord Developers](https://discord.com/developers/applications) site.
@@ -15,5 +15,6 @@ SNOV-bot is a bot designed to verify Syscoin sentry node holders and allow them 
 1. Install [bun](https://bun.sh/).
 2. Git clone the repo.
 3. Create a .env file in the main project folder and add the relevant info into it.
-4. In the main project folder run the command `bun install` to install all dependencies.
-5. In the main project folder run the command: `bun --watch index.js`, this will run the bot and will restart it if it crashes for any reason. Setting up a service to run the bot is advised.
+4. Add the relevant channels and channel permissions to the `channels.json` file, ensuring that the main sentry node channel is the first one. You can find a list of viable channel permissions [here](https://discord.js.org/docs/packages/discord.js/main/PermissionFlagsBits:Variable).
+5. In the main project folder run the command `bun install` to install all dependencies.
+6. In the main project folder run the command: `bun --watch index.js`, this will run the bot and will restart it if it crashes for any reason. Setting up a service to run the bot is advised.

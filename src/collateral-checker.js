@@ -14,7 +14,7 @@ function delay(ms) {
 
 // runs daily at midnight
 // check all users to see if they are in the mnlist, if not check if they moved their collateral
-// if they moved their collateral then disable their access to the private channel and remove them from the DB
+// if they moved their collateral then disable their access to the private channels and remove them from the DB
 export const dailyTask = async (client) => {
 	schedule.scheduleJob('0 0 0 * * *', async () => {
 		console.log("Running daily collateral check...")

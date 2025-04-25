@@ -40,7 +40,7 @@ client.on(Events.MessageCreate, async (message) => {
       switch (command[0].toLowerCase()) {
         case "!help":
             sendDM(client, userID, DEFAULT, "SNOV-bot is a bot designed to verify whether a user is the owner of a specific Sentry Node collateral address " +
-                                  "and enables access to the Sentry Node clan channel if so. The process is as follows:\n" +
+                                  "and enables access to the sentry node holder channels if so. The process is as follows:\n" +
                                   "1. The user signs a message with their Syscoin QT wallet using the details provided by the !getMessage command:\n\n" +
                                   "> !getMessage *collateralTxid*\n\n" +
                                   "*collateralTxid is the txid of the transaction used to send the collateral*\n\n" +
@@ -69,11 +69,11 @@ client.on(Events.MessageCreate, async (message) => {
                   const enabled = await enableChannelAccess(client, userID);
 
                   if (enabled) {
-                    sendVerifiedDM(client, userID, `Congratulations, you are now verified and can access the Sentry Node clan channel!\n
+                    sendVerifiedDM(client, userID, `Congratulations, you are now verified and can access sentry node holder channels!\n
                                           Thank you for supporting Syscoin!`);
                     sendChannelArrivalMessage(client, userID);
                   } else {
-                    sendDM(client, userID, FAIL, "Could not enable access to the channel.");
+                    sendDM(client, userID, FAIL, "Could not enable access to all channels.");
                   }
                 } else {
                     sendDM(client, userID, FAIL, "Could not add user to the database.");
