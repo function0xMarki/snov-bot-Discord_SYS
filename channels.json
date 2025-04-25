@@ -1,0 +1,11 @@
+{
+	"1361749743901999355": {
+		"ViewChannel": true,
+		"SendMessages": true,
+		"ReadMessageHistory": true
+	},
+	"1365046708375130132": {
+		"ViewChannel": true,
+		"ReadMessageHistory": true
+	}
+}
