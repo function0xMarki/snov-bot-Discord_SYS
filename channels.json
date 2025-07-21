@@ -1,11 +1,15 @@
 {
-	"1361749743901999355": {
+	"1361829266127454238": {
 		"ViewChannel": true,
 		"SendMessages": true,
 		"ReadMessageHistory": true
-	},
-	"1365046708375130132": {
-		"ViewChannel": true,
-		"ReadMessageHistory": true
+		"AddReactions": true,
+		"MentionEveryone": false
+		"AttachFiles": false
+		"EmbedLinks": false
+		"CreatePublicThreads": false
+		"CreatePrivateThreads": false
+		"Connect": true
+		"Speak": true
 	}
 }
