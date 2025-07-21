@@ -2,14 +2,14 @@
 	"1361829266127454238": {
 		"ViewChannel": true,
 		"SendMessages": true,
-		"ReadMessageHistory": true
+		"ReadMessageHistory": true,
 		"AddReactions": true,
-		"MentionEveryone": false
-		"AttachFiles": false
-		"EmbedLinks": false
-		"CreatePublicThreads": false
-		"CreatePrivateThreads": false
-		"Connect": true
+		"MentionEveryone": false,
+		"AttachFiles": false,
+		"EmbedLinks": false,
+		"CreatePublicThreads": false,
+		"CreatePrivateThreads": false,
+		"Connect": true,
 		"Speak": true
 	}
 }
